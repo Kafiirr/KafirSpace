@@ -6,13 +6,13 @@ function drawHud() {
   if (gameState === GameState.CREDITS) {
     setTextAlign(ALIGN_CENTER);
     setFontSize(24, 'italic');
-    drawShadowText('THE ADVENTURES OF', CENTER_X, 60);
+    drawShadowText('CONGRATS, THE ADVENTURES OF', CENTER_X, 60);
     setFontSize(64, 'italic');
-    drawShadowText('CAPTAIN CALLISTO', CENTER_X, 120);
+    drawShadowText('CAPTAIN KAFIR IS FINISHED', CENTER_X, 120);
 
     setFontSize(72, 'italic');
     setTextAlign(ALIGN_CENTER);
-    drawShadowText('THANK YOU FOR PLAYING', CENTER_X, CENTER_Y);
+    drawShadowText('SEE YOU FOR UPCOMING UPDATES!', CENTER_X, CENTER_Y);
     return;
   }
 

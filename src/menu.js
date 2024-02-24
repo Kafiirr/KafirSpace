@@ -3,7 +3,7 @@ const introText = [,
   [
     [
       // Intro Story 1
-      'OUR HERO, CAPTAIN CALLISTO, BLASTS THROUGH SPACE',
+      'OUR HERO, CAPTAIN KAFIR, BLASTS THROUGH SPACE',
       'SEEKING ADVENTURE',
     ],
   ],
@@ -70,7 +70,7 @@ const introText = [,
     [
       // Level failed
       'OH NO!',
-      'TRY AGAIN!',
+      'DO NOT LET CAPT KAFIR DOWN, TRY AGAIN!',
     ],
   ],
 ];
@@ -221,7 +221,7 @@ const drawMenu = () => {
     setFontSize(24, 'italic');
     drawShadowText('THE ADVENTURES OF', CENTER_X, 60);
     setFontSize(64, 'italic');
-    drawShadowText('CAPTAIN CALLISTO', CENTER_X, 120);
+    drawShadowText('CAPTAIN KAFIR', CENTER_X, 120);
   }
 
   if (menu === mainMenu) {

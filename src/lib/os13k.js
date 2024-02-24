@@ -1,7 +1,7 @@
 
 const icon = '👨‍🚀';
 
-const gameName = 'Captain Callisto';
+const gameName = 'Captain Kafir';
 
 /**
  * Adds an OS13k trophy.

@@ -2,16 +2,214 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Captain Callisto</title>
+<title>Kafirchain Spaces</title>
+<link rel="icon" href="https://i.imgur.com/A4vC9s7.png" type="image/x-icon">
 <style>
-*{touch-action:none;}
-html,body{width:100%;height:100%;margin:0;border:0;overflow:hidden;display:block;background:#000;}
-canvas{position:absolute;}
+  * { touch-action: none; }
+  html, body { width: 100%; height: 100%; margin: 0; border: 0; overflow: hidden; position: relative; }
+  canvas { position: absolute; }
+  #connectButton, #switchNetworkButton, #addNetworkButton, #signTransactionButton { 
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #16277e; /* Change button color as needed */
+    border: none;
+    cursor: pointer;
+    z-index: 9999;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%); /* Center horizontally and vertically */
+    color: #ffffff; /* Text color for buttons */
+    border-radius: 5px; /* Add border radius for rounded corners */
+  }
+
+  #connectButton { left: 50%; }
+  #switchNetworkButton { display: none; left: 50%; }
+  #addNetworkButton { display: none; left: 50%; }
+  #signTransactionButton { left: 50%; }
+
+  #walletAddress { 
+    display: none;
+    color: #000000;
+    font-size: 18px;
+  }
+  #blurredBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
 </style>
 </head>
-<body>
-<canvas></canvas>
-<canvas></canvas>
-<script src="index.js"></script>
+<body>  
+  <canvas></canvas>
+  <canvas></canvas>
+  <div id="blurredBackground"></div>
+  <button id="connectButton">Connect Wallet</button>
+  <button id="signTransactionButton" onclick="signTransaction()">Sign Transaction</button>
+  <p id="walletAddress"></p>
+  <button id="switchNetworkButton">Switch Network</button>
+  <button id="addNetworkButton">Add Kafirchain Network</button>
+  <script>
+    async function checkNetwork() {
+      if (window.ethereum) {
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        if (chainId === '0x413190') {
+          document.getElementById('switchNetworkButton').style.display = 'none';
+        } else {
+          document.getElementById('switchNetworkButton').style.display = 'block';
+          document.getElementById('switchNetworkButton').innerText = 'Add or Switch to Kafirchain Network';
+        }
+      }
+    }
+
+    function displayWalletAddress(address) {
+      document.getElementById('walletAddress').style.display = 'block';
+      document.getElementById('connectButton').style.display = 'none';
+      document.getElementById('blurredBackground').style.display = 'none';
+
+      const switchNetworkButton = document.getElementById('switchNetworkButton');
+      switchNetworkButton.style.display = 'block';
+      switchNetworkButton.style.position = 'absolute';
+      switchNetworkButton.style.top = '50%';
+      switchNetworkButton.style.left = '50%';
+      switchNetworkButton.style.transform = 'translate(-50%, -50%)';
+      switchNetworkButton.style.zIndex = '9999';
+    }
+
+    async function connectWallet() {
+      try {
+        if (window.ethereum) {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          if (accounts.length > 0) {
+            displayWalletAddress(accounts[0]);
+            checkNetwork(); // Check if user is on the correct network after connecting the wallet
+          }
+        } else {
+          throw new Error('Metamask not detected. Please install Metamask extension.');
+        }
+      } catch (error) {
+        console.error('Error connecting Metamask:', error);
+      }
+    }
+
+    async function switchToCustomChain() {
+      try {
+        if (window.ethereum) {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x413190' }]
+          });
+          displayWalletAddress(window.ethereum.selectedAddress);
+        } else {
+          throw new Error('Metamask not detected. Please install Metamask extension.');
+        }
+      } catch (error) {
+        console.error('Error switching to custom chain:', error);
+      }
+    }
+
+    async function promptAddNetwork() {
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: '0x413190',
+              chainName: 'Kafirchain',
+              nativeCurrency: {
+                name: 'uKFR',
+                symbol: 'KFR',
+                decimals: 18
+              },
+              rpcUrls: ['https://froopyland.dymension.xyz/22/kafirchain_4272528-1/evmrpc'],
+              blockExplorerUrls: ['https://www.kafirchain.my.id/#/kafir'],
+            }]
+          });
+        } catch (error) {
+          console.error('Error adding Kafirchain network:', error);
+        }
+      } else {
+        console.error('Metamask not detected. Please install Metamask extension.');
+      }
+    }
+
+    async function switchOrAddNetwork() {
+      if (window.ethereum) {
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        if (chainId !== '0x413190') {
+          // If the user is not on Kafirchain, prompt to add the Kafirchain network
+          promptAddNetwork();
+        } else {
+          // If the user is already on Kafirchain, switch to Kafirchain
+          switchToCustomChain();
+        }
+      } else {
+        console.error('Metamask not detected. Please install Metamask extension.');
+      }
+    }
+
+    async function checkMetamask() {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            displayWalletAddress(accounts[0]);
+            checkNetwork(); // Check if the user is on the correct network after connecting the wallet
+          } else {
+            document.getElementById('connectButton').style.display = 'block';
+          }
+        } catch (error) {
+          console.error('Error getting the wallet address:', error);
+        }
+      } else {
+        console.error('Metamask not detected. Please install Metamask extension.');
+      }
+    }
+
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', (chainId) => {
+        checkNetwork();
+      });
+    }
+
+    async function signTransaction() {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          if (accounts.length > 0) {
+            const transactionParams = {
+              from: accounts[0],
+              to: '0xA6097E61738B3f5a851ac051309BeA24235820Ba', // Replace with your target address
+              value: '1000000000000000', // Replace with the value in Wei
+            };
+
+            const result = await window.ethereum.request({
+              method: 'eth_sendTransaction',
+              params: [transactionParams],
+            });
+
+            console.log('Transaction hash:', result);
+
+            // Hide the signTransactionButton after signing
+            document.getElementById('signTransactionButton').style.display = 'none';
+          }
+        } catch (error) {
+          console.error('Error signing transaction:', error);
+        }
+      } else {
+        console.error('Metamask not detected. Please install Metamask extension.');
+      }
+    }
+
+    document.getElementById('connectButton').addEventListener('click', connectWallet);
+    document.getElementById('switchNetworkButton').addEventListener('click', switchOrAddNetwork);
+    document.getElementById('signTransactionButton').addEventListener('click', signTransaction);
+    checkMetamask();
+    checkNetwork();
+  </script>
+  <script src="index.js"></script>
 </body>
 </html>

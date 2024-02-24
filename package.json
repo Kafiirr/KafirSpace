@@ -18,5 +18,12 @@
     "google-closure-compiler": "20220405.0.0",
     "http-server": "^14.1.0",
     "roadroller": "2.1.0"
+  },
+  "dependencies": {
+    "@thirdweb-dev/react": "^4.2.2",
+    "@thirdweb-dev/sdk": "^4.0.25",
+    "@web3-react/core": "^8.2.3",
+    "@web3-react/injected-connector": "^6.0.7",
+    "ethers": "^5.7.2"
   }
 }
