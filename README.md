@@ -1,6 +1,6 @@
 # The Adventures of Captain Kafir
 
-A short 3D action game for the 2021 js13kGames Competition.
+A short 3D action game
 
 Our hero, Captain Kafir, blasts through space, seeking adventure. What will he find?
 
@@ -16,7 +16,7 @@ Controls:
 
 Demo video:
 
-https://user-images.githubusercontent.com/749094/133300747-98fbe8bd-565e-45a5-8b70-4fd4c5529d7e.mp4
+https://i.imgur.com/KTdqxX3.mp4
 
 ## Branches
 
@@ -34,7 +34,7 @@ Release build: `npm run build`
 
 Start a web server: `npm run server`
 
-You can then point your web browser to <http://localhost:3000/>
+You can then point your web browser to <http://localhost:port/>
 
 Note that the `npm run dev` command does not have a "watch" mode, so you need to rebuild every time you want to see your changes.
 
