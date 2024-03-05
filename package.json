@@ -1,7 +1,7 @@
 {
-  "name": "js13k-callisto",
+  "name": "kafirspace",
   "version": "1.0.0",
-  "description": "js13k",
+  "description": "kafirspace is web3 adventure games",
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
@@ -25,5 +25,17 @@
     "@web3-react/core": "^8.2.3",
     "@web3-react/injected-connector": "^6.0.7",
     "ethers": "^5.7.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kafiirr/KafirSpace.git"
+  },
+  "keywords": [
+    "kafirspace"
+  ],
+  "author": "kafir",
+  "bugs": {
+    "url": "https://github.com/Kafiirr/KafirSpace/issues"
+  },
+  "homepage": "https://github.com/Kafiirr/KafirSpace#readme"
 }
