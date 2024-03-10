@@ -1,6 +1,6 @@
 # The Adventures of Captain Kafir
 
-A short 3D action game
+A short 3D action games
 
 Our hero, Captain Kafir, blasts through space, seeking adventure. What will he find?
 
